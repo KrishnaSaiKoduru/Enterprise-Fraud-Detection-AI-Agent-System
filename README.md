@@ -237,8 +237,8 @@ session = session_service.create_session_sync(
 
 1. **Clone the repository**:
 ```bash
-git clone https://github.com/KrishnaSaiKoduru/AI-Agent-Capstone.git
-cd AI-Agent-Capstone
+git clone https://github.com/KrishnaSaiKoduru/Enterprise-Fraud-Detection-AI-Agent-System.git
+cd Enterprise-Fraud-Detection-AI-Agent-System
 ```
 
 2. **Create virtual environment**:
