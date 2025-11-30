@@ -1,0 +1,9 @@
+[
+  "amount",
+  "hour",
+  "merchant_risk_score",
+  "velocity_1h",
+  "geo_distance_km",
+  "amount_z_score",
+  "is_weekend"
+]

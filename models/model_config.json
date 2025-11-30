@@ -1,0 +1,16 @@
+{
+  "best_threshold": 0.7105263157894738,
+  "train_auc": 0.99933125,
+  "test_auc": 0.9986842105263158,
+  "feature_columns": [
+    "amount",
+    "hour",
+    "merchant_risk_score",
+    "velocity_1h",
+    "geo_distance_km",
+    "amount_z_score",
+    "is_weekend"
+  ],
+  "contamination": 0.05,
+  "n_estimators": 100
+}

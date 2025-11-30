@@ -1,0 +1,115 @@
+# Fraud Detection Agent System Configuration
+
+# Rule-based Detection Rules
+rules:
+  high_amount:
+    threshold: 5000
+    score: 0.4
+    description: "Transaction amount exceeds typical threshold"
+
+  unusual_distance:
+    threshold_km: 100
+    score: 0.3
+    description: "Transaction location far from home"
+
+  high_velocity:
+    transactions_per_hour: 5
+    score: 0.5
+    description: "Multiple transactions in short time window"
+
+  risky_merchant:
+    categories: ["gambling", "crypto", "high-risk-international"]
+    score: 0.3
+    description: "Merchant in high-risk category"
+
+  unusual_time:
+    hours: [0, 1, 2, 3, 4, 5]  # Midnight to 5 AM
+    score: 0.2
+    description: "Transaction during unusual hours"
+
+# Machine Learning Model Configuration
+ml_model:
+  type: "IsolationForest"
+  contamination: 0.05
+  n_estimators: 100
+  max_samples: 256
+  random_state: 42
+
+  features:
+    - "amount"
+    - "hour"
+    - "merchant_risk_score"
+    - "velocity_1h"
+    - "geo_distance_km"
+    - "amount_z_score"
+    - "is_weekend"
+
+# Feature Engineering
+feature_engineering:
+  customer_home_location:
+    default_lat: 37.7749
+    default_lon: -122.4194
+
+  merchant_risk_mapping:
+    high_risk: 1.0
+    medium_risk: 0.5
+    low_risk: 0.0
+
+# Scoring Configuration
+scoring:
+  rule_weight: 0.4
+  ml_weight: 0.6
+  fraud_threshold: 0.7
+  high_priority_threshold: 0.85
+
+# Agent Configuration
+agents:
+  detector:
+    name: "FraudDetectorAgent"
+    description: "Detects potentially fraudulent transactions using rules and ML"
+    max_iterations: 5
+
+  enrichment:
+    name: "EnrichmentAgent"
+    description: "Enriches flagged transactions with customer and merchant data"
+    max_iterations: 3
+
+  analyst:
+    name: "AnalystAgent"
+    description: "Generates investigation briefs using Gemini"
+    model: "gemini-2.0-flash-exp"
+    temperature: 0.1
+    max_tokens: 2048
+    max_iterations: 3
+
+# Session Configuration
+sessions:
+  type: "InMemorySessionService"
+  velocity_window_minutes: 60
+  max_session_age_hours: 24
+  enable_compaction: true
+  compaction_threshold: 100
+
+# Observability Configuration
+observability:
+  enable_logging: true
+  log_level: "INFO"
+  enable_metrics: true
+  enable_tracing: true
+  metrics:
+    - "transactions_processed"
+    - "fraud_detected"
+    - "false_positives"
+    - "agent_execution_time"
+    - "model_inference_time"
+
+# Evaluation Configuration
+evaluation:
+  metrics:
+    - "auc_roc"
+    - "precision_at_k"
+    - "recall_at_k"
+    - "f1_score"
+  precision_k_values: [10, 50, 100]
+  test_set_size: 0.2
+  cross_validation_folds: 5
