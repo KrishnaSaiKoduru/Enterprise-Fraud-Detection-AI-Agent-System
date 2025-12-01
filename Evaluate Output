@@ -1,0 +1,211 @@
+Completed processing 2000 transactions
+
+Computing evaluation metrics...
+
+Optimal Threshold (F1): 0.622 (F1=0.9637)
+
+--------------------------------------------------------------------------------
+METRICS AT THRESHOLD 0.5:
+--------------------------------------------------------------------------------
+
+============================================================
+FRAUD DETECTION EVALUATION REPORT
+============================================================
+
+Dataset:
+  Total Samples: 2000
+  Positive (Fraud): 100
+  Negative (Legitimate): 1900
+  Fraud Ratio: 5.00%
+
+Threshold: 0.500
+
+Classification Metrics:
+  AUC-ROC: 0.9876
+  AUC-PR: 0.9521
+  Precision: 0.0500
+  Recall: 1.0000
+  F1 Score: 0.0952
+
+Confusion Matrix:
+  True Negatives: 0
+  False Positives: 1900
+  False Negatives: 0
+  True Positives: 100
+
+Error Rates:
+  False Positive Rate: 1.0000
+  False Negative Rate: 0.0000
+
+Precision@k:
+  p@10: 1.0000
+  p@50: 1.0000
+  p@100: 0.9400
+
+Recall@k:
+  r@10: 0.1000
+  r@50: 0.5000
+  r@100: 0.9400
+============================================================
+
+
+--------------------------------------------------------------------------------
+METRICS AT THRESHOLD 0.7 (Default):
+--------------------------------------------------------------------------------
+
+============================================================
+FRAUD DETECTION EVALUATION REPORT
+============================================================
+
+Dataset:
+  Total Samples: 2000
+  Positive (Fraud): 100
+  Negative (Legitimate): 1900
+  Fraud Ratio: 5.00%
+
+Threshold: 0.700
+
+Classification Metrics:
+  AUC-ROC: 0.9876
+  AUC-PR: 0.9521
+  Precision: 1.0000
+  Recall: 0.5100
+  F1 Score: 0.6755
+
+Confusion Matrix:
+  True Negatives: 1900
+  False Positives: 0
+  False Negatives: 49
+  True Positives: 51
+
+Error Rates:
+  False Positive Rate: 0.0000
+  False Negative Rate: 0.4900
+
+Precision@k:
+  p@10: 1.0000
+  p@50: 1.0000
+  p@100: 0.9400
+
+Recall@k:
+  r@10: 0.1000
+  r@50: 0.5000
+  r@100: 0.9400
+============================================================
+
+
+--------------------------------------------------------------------------------
+METRICS AT OPTIMAL THRESHOLD 0.622:
+--------------------------------------------------------------------------------
+
+============================================================
+FRAUD DETECTION EVALUATION REPORT
+============================================================
+
+Dataset:
+  Total Samples: 2000
+  Positive (Fraud): 100
+  Negative (Legitimate): 1900
+  Fraud Ratio: 5.00%
+
+Threshold: 0.622
+
+Classification Metrics:
+  AUC-ROC: 0.9876
+  AUC-PR: 0.9521
+  Precision: 1.0000
+  Recall: 0.9300
+  F1 Score: 0.9637
+
+Confusion Matrix:
+  True Negatives: 1900
+  False Positives: 0
+  False Negatives: 7
+  True Positives: 93
+
+Error Rates:
+  False Positive Rate: 0.0000
+  False Negative Rate: 0.0700
+
+Precision@k:
+  p@10: 1.0000
+  p@50: 1.0000
+  p@100: 0.9400
+
+Recall@k:
+  r@10: 0.1000
+  r@50: 0.5000
+  r@100: 0.9400
+============================================================
+
+
+Generating evaluation plots...
+ROC curve saved to D:\Krishna Sai\AI-Agent-Capstone\data\processed\eval_roc_curve.png
+PR curve saved to D:\Krishna Sai\AI-Agent-Capstone\data\processed\eval_pr_curve.png
+Confusion matrix saved to D:\Krishna Sai\AI-Agent-Capstone\data\processed\eval_confusion_matrix.png
+Plots saved to data/processed/
+
+Metrics saved to D:\Krishna Sai\AI-Agent-Capstone\data\processed\evaluation_metrics.json
+
+================================================================================
+SYSTEM PERFORMANCE SUMMARY
+================================================================================
+
+============================================================
+FRAUD DETECTION SYSTEM METRICS REPORT
+============================================================
+
+Uptime: 28.87 seconds
+
+--- Counters ---
+  agent_executions[agent=FraudDetectorAgent,status=success]: 2000
+  fraud_detected: 2000
+  ml_predictions: 2000
+  rules_triggered[rule=high_amount]: 20
+  rules_triggered[rule=risky_merchant]: 48
+  rules_triggered[rule=unusual_distance]: 83
+  rules_triggered[rule=unusual_time]: 494
+  transactions_processed: 2000
+
+--- Gauges ---
+
+--- Histograms ---
+  fraud_scores:
+    count: 2000
+    min: 0.519
+    max: 0.867
+    mean: 0.555
+  ml_scores:
+    count: 2000
+    min: 0.865
+    max: 0.976
+    mean: 0.896
+
+--- Timers ---
+  agent_execution_time[agent=FraudDetectorAgent]:
+    count: 2000
+    min: 0.00ms
+    max: 315.82ms
+    mean: 8.06ms
+  model_inference_time:
+    count: 2000
+    min: 10.00ms
+    max: 10.00ms
+    mean: 10.00ms
+============================================================
+
+
+============================================================
+SESSION STATISTICS
+============================================================
+  active_sessions: 493
+  total_customers: 493
+  total_transactions: 0
+  total_alerts: 0
+  average_transactions_per_customer: 0.00
+============================================================
+
+
+✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅
+EVALUATION COMPLETE!
+✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅
