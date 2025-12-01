@@ -1,0 +1,521 @@
+🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 
+ENTERPRISE AI FRAUD DETECTION AGENT SYSTEM - DEMO
+🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 🔍 
+
+This demo showcases the multi-agent fraud detection system built with Google ADK.
+
+The system includes:
+  1. Detector Agent: Rule-based + ML fraud detection
+  2. Enrichment Agent: Contextual data gathering
+  3. Analyst Agent: AI-powered investigation briefs
+
+Features:
+  - IsolationForest ML model for anomaly detection
+  - Rule-based fraud detection (amount, velocity, location, merchant)
+  - Session management for per-customer state
+  - Observability with metrics and logging
+  - Explainable AI with feature importance
+
+Press Enter to start the demos...
+
+================================================================================
+DEMO 1: Single Transaction Processing
+================================================================================
+
+INFO:src.models.observability:Fraud Detection Observability initialized
+INFO:src.models.session_manager:Using ADK InMemorySessionService
+INFO:src.fraud_detection_system:Initializing fraud detection agents...
+INFO:src.agents.detector_agent:Fraud Detector Agent initialized with model: gemini-2.0-flash-exp
+INFO:src.agents.enrichment_agent:Enrichment Agent initialized with model: gemini-2.0-flash-exp
+INFO:src.agents.analyst_agent:Analyst Agent initialized with model: gemini-2.0-flash-exp
+INFO:src.fraud_detection_system:Fraud Detection System initialized successfully
+Transaction Details:
+{
+  "transaction_id": "TXN_DEMO_001",
+  "customer_id": 9999,
+  "timestamp": "2025-12-01T12:10:59.824960",
+  "amount": 12000.0,
+  "merchant_id": "MERCH99999",
+  "merchant_category": "gambling",
+  "merchant_risk_category": "high_risk",
+  "latitude": 51.5074,
+  "longitude": -0.1278,
+  "home_latitude": 37.7749,
+  "home_longitude": -122.4194
+}
+
+--------------------------------------------------------------------------------
+
+INFO:src.fraud_detection_system:Processing transaction TXN_DEMO_001 for customer 9999
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN_DEMO_001
+INFO:src.agents.detector_agent:Transaction TXN_DEMO_001: Score=0.821, Priority=high
+INFO:src.models.observability:Rule 'high_amount' triggered for transaction TXN_DEMO_001
+INFO:src.models.observability:Rule 'unusual_distance' triggered for transaction TXN_DEMO_001
+INFO:src.models.observability:Rule 'risky_merchant' triggered for transaction TXN_DEMO_001
+INFO:src.models.observability:FraudDetectorAgent completed for TXN_DEMO_001 in 1855.91ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN_DEMO_001 (Customer: 9999, Score: 0.821)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN_DEMO_001
+INFO:src.agents.enrichment_agent:Transaction TXN_DEMO_001 enriched: 1 risk indicators found
+INFO:src.models.observability:Enrichment for TXN_DEMO_001: 4 sources queried in 2.62ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN_DEMO_001 in 2.62ms
+INFO:src.agents.analyst_agent:Analyzing event TXN_DEMO_001
+INFO:src.agents.analyst_agent:Investigation brief generated for TXN_DEMO_001: Priority=high
+INFO:src.models.observability:Investigation brief CASE-TXN_DEMO_001 generated: priority=high, generation_time=1.12ms
+INFO:src.models.observability:AnalystAgent completed for TXN_DEMO_001 in 1.12ms
+INFO:src.models.session_manager:Fraud alert added for customer 9999
+INFO:src.fraud_detection_system:Transaction TXN_DEMO_001 processed in 1874.14ms: fraud_score=0.821, stages=['detection', 'enrichment', 'investigation_brief']
+FRAUD DETECTION RESULTS:
+  Fraud Score: 0.821
+  Priority: high
+  Fraud Detected: True
+  Stages Completed: detection, enrichment, investigation_brief
+  Processing Time: 1874.14ms
+
+  Rule Analysis:
+    - high_amount: Amount $12000.00 exceeds $5000
+    - unusual_distance: Distance 8616.4 km exceeds 100 km
+    - risky_merchant: Merchant category 'gambling' is high-risk
+
+  ML Score: 0.976
+  Combined Score: 0.821
+
+  Investigation Brief:
+    Case ID: CASE-TXN_DEMO_001
+    Priority: high
+    Summary: High-risk transaction detected for customer 9999. $12000.00 transaction scored 82.06% fraud probability with 3 rule violations. Immediate investigation recommended.
+    Suggested Actions:
+      - Place transaction on hold pending review
+      - Request additional verification from customer
+      - Review customer's recent transaction history
+
+================================================================================
+
+Press Enter to continue to next demo...
+
+================================================================================
+DEMO 2: Batch Transaction Processing
+================================================================================
+
+INFO:src.models.session_manager:Using ADK InMemorySessionService
+INFO:src.fraud_detection_system:Initializing fraud detection agents...
+INFO:src.agents.detector_agent:Fraud Detector Agent initialized with model: gemini-2.0-flash-exp
+INFO:src.agents.enrichment_agent:Enrichment Agent initialized with model: gemini-2.0-flash-exp
+INFO:src.agents.analyst_agent:Analyst Agent initialized with model: gemini-2.0-flash-exp
+INFO:src.fraud_detection_system:Fraud Detection System initialized successfully
+Processing 10 transactions...
+
+INFO:src.fraud_detection_system:Processing batch of 10 transactions
+INFO:src.fraud_detection_system:Processing transaction TXN00004137 for customer 1062
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN00004137
+INFO:src.agents.detector_agent:Transaction TXN00004137: Score=0.532, Priority=medium
+INFO:src.models.observability:FraudDetectorAgent completed for TXN00004137 in 10.18ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN00004137 (Customer: 1062, Score: 0.532)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN00004137
+INFO:src.agents.enrichment_agent:Transaction TXN00004137 enriched: 0 risk indicators found
+INFO:src.models.observability:Enrichment for TXN00004137: 4 sources queried in 1.01ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN00004137 in 1.01ms
+INFO:src.fraud_detection_system:Transaction TXN00004137 processed in 15.45ms: fraud_score=0.532, stages=['detection', 'enrichment'] 
+INFO:src.fraud_detection_system:Processing transaction TXN00005399 for customer 1293
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN00005399
+INFO:src.agents.detector_agent:Transaction TXN00005399: Score=0.525, Priority=medium
+INFO:src.models.observability:FraudDetectorAgent completed for TXN00005399 in 7.96ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN00005399 (Customer: 1293, Score: 0.525)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN00005399
+INFO:src.agents.enrichment_agent:Transaction TXN00005399 enriched: 1 risk indicators found
+INFO:src.models.observability:Enrichment for TXN00005399: 4 sources queried in 0.00ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN00005399 in 0.00ms
+INFO:src.fraud_detection_system:Transaction TXN00005399 processed in 10.12ms: fraud_score=0.525, stages=['detection', 'enrichment'] 
+INFO:src.fraud_detection_system:Processing transaction TXN00008447 for customer 1486
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN00008447
+INFO:src.agents.detector_agent:Transaction TXN00008447: Score=0.553, Priority=medium
+INFO:src.models.observability:FraudDetectorAgent completed for TXN00008447 in 8.39ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN00008447 (Customer: 1486, Score: 0.553)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN00008447
+INFO:src.agents.enrichment_agent:Transaction TXN00008447 enriched: 1 risk indicators found
+INFO:src.models.observability:Enrichment for TXN00008447: 4 sources queried in 2.51ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN00008447 in 2.51ms
+INFO:src.fraud_detection_system:Transaction TXN00008447 processed in 15.09ms: fraud_score=0.553, stages=['detection', 'enrichment'] 
+INFO:src.fraud_detection_system:Processing transaction TXN00001336 for customer 1323
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN00001336
+INFO:src.agents.detector_agent:Transaction TXN00001336: Score=0.562, Priority=medium
+INFO:src.models.observability:FraudDetectorAgent completed for TXN00001336 in 7.84ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN00001336 (Customer: 1323, Score: 0.562)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN00001336
+INFO:src.agents.enrichment_agent:Transaction TXN00001336 enriched: 2 risk indicators found
+INFO:src.models.observability:Enrichment for TXN00001336: 4 sources queried in 1.00ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN00001336 in 1.00ms
+INFO:src.fraud_detection_system:Transaction TXN00001336 processed in 12.06ms: fraud_score=0.562, stages=['detection', 'enrichment'] 
+INFO:src.fraud_detection_system:Processing transaction TXN00002856 for customer 1175
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN00002856
+INFO:src.agents.detector_agent:Transaction TXN00002856: Score=0.542, Priority=medium
+INFO:src.models.observability:FraudDetectorAgent completed for TXN00002856 in 8.11ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN00002856 (Customer: 1175, Score: 0.542)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN00002856
+INFO:src.agents.enrichment_agent:Transaction TXN00002856 enriched: 2 risk indicators found
+INFO:src.models.observability:Enrichment for TXN00002856: 4 sources queried in 1.00ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN00002856 in 1.00ms
+INFO:src.fraud_detection_system:Transaction TXN00002856 processed in 11.81ms: fraud_score=0.542, stages=['detection', 'enrichment'] 
+INFO:src.fraud_detection_system:Processing transaction TXN00003292 for customer 1380
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN00003292
+INFO:src.agents.detector_agent:Transaction TXN00003292: Score=0.528, Priority=medium
+INFO:src.models.observability:FraudDetectorAgent completed for TXN00003292 in 5.13ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN00003292 (Customer: 1380, Score: 0.528)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN00003292
+INFO:src.agents.enrichment_agent:Transaction TXN00003292 enriched: 1 risk indicators found
+INFO:src.models.observability:Enrichment for TXN00003292: 4 sources queried in 1.07ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN00003292 in 1.07ms
+INFO:src.fraud_detection_system:Transaction TXN00003292 processed in 13.92ms: fraud_score=0.528, stages=['detection', 'enrichment'] 
+INFO:src.fraud_detection_system:Processing transaction TXN00005825 for customer 1012
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN00005825
+INFO:src.agents.detector_agent:Transaction TXN00005825: Score=0.539, Priority=medium
+INFO:src.models.observability:FraudDetectorAgent completed for TXN00005825 in 8.79ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN00005825 (Customer: 1012, Score: 0.539)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN00005825
+INFO:src.agents.enrichment_agent:Transaction TXN00005825 enriched: 2 risk indicators found
+INFO:src.models.observability:Enrichment for TXN00005825: 4 sources queried in 1.62ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN00005825 in 1.62ms
+INFO:src.fraud_detection_system:Transaction TXN00005825 processed in 10.41ms: fraud_score=0.539, stages=['detection', 'enrichment'] 
+INFO:src.fraud_detection_system:Processing transaction TXN00003984 for customer 1027
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN00003984
+INFO:src.agents.detector_agent:Transaction TXN00003984: Score=0.579, Priority=medium
+INFO:src.models.observability:Rule 'unusual_time' triggered for transaction TXN00003984
+INFO:src.models.observability:FraudDetectorAgent completed for TXN00003984 in 10.07ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN00003984 (Customer: 1027, Score: 0.579)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN00003984
+INFO:src.agents.enrichment_agent:Transaction TXN00003984 enriched: 1 risk indicators found
+INFO:src.models.observability:Enrichment for TXN00003984: 4 sources queried in 1.03ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN00003984 in 1.03ms
+INFO:src.fraud_detection_system:Transaction TXN00003984 processed in 13.28ms: fraud_score=0.579, stages=['detection', 'enrichment'] 
+INFO:src.fraud_detection_system:Processing transaction TXN00009452 for customer 1054
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN00009452
+INFO:src.agents.detector_agent:Transaction TXN00009452: Score=0.522, Priority=medium
+INFO:src.models.observability:FraudDetectorAgent completed for TXN00009452 in 0.00ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN00009452 (Customer: 1054, Score: 0.522)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN00009452
+INFO:src.agents.enrichment_agent:Transaction TXN00009452 enriched: 2 risk indicators found
+INFO:src.models.observability:Enrichment for TXN00009452: 4 sources queried in 1.08ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN00009452 in 1.08ms
+INFO:src.fraud_detection_system:Transaction TXN00009452 processed in 10.43ms: fraud_score=0.522, stages=['detection', 'enrichment'] 
+INFO:src.fraud_detection_system:Processing transaction TXN00002680 for customer 1472
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN00002680
+INFO:src.agents.detector_agent:Transaction TXN00002680: Score=0.527, Priority=medium
+INFO:src.models.observability:FraudDetectorAgent completed for TXN00002680 in 6.56ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN00002680 (Customer: 1472, Score: 0.527)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN00002680
+INFO:src.agents.enrichment_agent:Transaction TXN00002680 enriched: 3 risk indicators found
+INFO:src.models.observability:Enrichment for TXN00002680: 4 sources queried in 3.93ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN00002680 in 3.93ms
+INFO:src.fraud_detection_system:Transaction TXN00002680 processed in 11.21ms: fraud_score=0.527, stages=['detection', 'enrichment'] 
+INFO:src.fraud_detection_system:Batch processing complete: 10 transactions processed
+BATCH PROCESSING SUMMARY:
+  Total Transactions: 10
+  Fraud Detected: 10
+  Total Processing Time: 123.77ms
+  Average Time per Transaction: 12.38ms
+
+  Fraud Cases:
+    - TXN00004137: score=0.532, priority=medium
+    - TXN00005399: score=0.525, priority=medium
+    - TXN00008447: score=0.553, priority=medium
+    - TXN00001336: score=0.562, priority=medium
+    - TXN00002856: score=0.542, priority=medium
+    - TXN00003292: score=0.528, priority=medium
+    - TXN00005825: score=0.539, priority=medium
+    - TXN00003984: score=0.579, priority=medium
+    - TXN00009452: score=0.522, priority=medium
+    - TXN00002680: score=0.527, priority=medium
+
+================================================================================
+
+Press Enter to continue to next demo...
+
+================================================================================
+DEMO 4: Customer Session Tracking
+================================================================================
+
+INFO:src.models.session_manager:Using ADK InMemorySessionService
+INFO:src.fraud_detection_system:Initializing fraud detection agents...
+INFO:src.agents.detector_agent:Fraud Detector Agent initialized with model: gemini-2.0-flash-exp
+INFO:src.agents.enrichment_agent:Enrichment Agent initialized with model: gemini-2.0-flash-exp
+INFO:src.agents.analyst_agent:Analyst Agent initialized with model: gemini-2.0-flash-exp
+INFO:src.fraud_detection_system:Fraud Detection System initialized successfully
+Processing transaction 1/6...
+INFO:src.fraud_detection_system:Processing transaction TXN_SESSION_000 for customer 5555
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN_SESSION_000
+INFO:src.agents.detector_agent:Transaction TXN_SESSION_000: Score=0.548, Priority=medium
+INFO:src.models.observability:FraudDetectorAgent completed for TXN_SESSION_000 in 13.97ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN_SESSION_000 (Customer: 5555, Score: 0.548)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN_SESSION_000
+INFO:src.agents.enrichment_agent:Transaction TXN_SESSION_000 enriched: 0 risk indicators found
+INFO:src.models.observability:Enrichment for TXN_SESSION_000: 4 sources queried in 3.74ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN_SESSION_000 in 3.74ms
+INFO:src.fraud_detection_system:Transaction TXN_SESSION_000 processed in 17.71ms: fraud_score=0.548, stages=['detection', 'enrichment']
+Processing transaction 2/6...
+INFO:src.fraud_detection_system:Processing transaction TXN_SESSION_001 for customer 5555
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN_SESSION_001
+INFO:src.agents.detector_agent:Transaction TXN_SESSION_001: Score=0.582, Priority=medium
+INFO:src.models.observability:FraudDetectorAgent completed for TXN_SESSION_001 in 15.92ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN_SESSION_001 (Customer: 5555, Score: 0.582)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN_SESSION_001
+INFO:src.agents.enrichment_agent:Transaction TXN_SESSION_001 enriched: 0 risk indicators found
+INFO:src.models.observability:Enrichment for TXN_SESSION_001: 4 sources queried in 0.00ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN_SESSION_001 in 0.00ms
+INFO:src.fraud_detection_system:Transaction TXN_SESSION_001 processed in 19.00ms: fraud_score=0.582, stages=['detection', 'enrichment']
+Processing transaction 3/6...
+INFO:src.fraud_detection_system:Processing transaction TXN_SESSION_002 for customer 5555
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN_SESSION_002
+INFO:src.agents.detector_agent:Transaction TXN_SESSION_002: Score=0.580, Priority=medium
+INFO:src.models.observability:FraudDetectorAgent completed for TXN_SESSION_002 in 9.81ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN_SESSION_002 (Customer: 5555, Score: 0.580)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN_SESSION_002
+INFO:src.agents.enrichment_agent:Transaction TXN_SESSION_002 enriched: 0 risk indicators found
+INFO:src.models.observability:Enrichment for TXN_SESSION_002: 4 sources queried in 1.53ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN_SESSION_002 in 1.53ms
+INFO:src.fraud_detection_system:Transaction TXN_SESSION_002 processed in 22.30ms: fraud_score=0.580, stages=['detection', 'enrichment']
+Processing transaction 4/6...
+INFO:src.fraud_detection_system:Processing transaction TXN_SESSION_003 for customer 5555
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN_SESSION_003
+INFO:src.agents.detector_agent:Transaction TXN_SESSION_003: Score=0.579, Priority=medium
+INFO:src.models.observability:FraudDetectorAgent completed for TXN_SESSION_003 in 11.61ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN_SESSION_003 (Customer: 5555, Score: 0.579)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN_SESSION_003
+INFO:src.agents.enrichment_agent:Transaction TXN_SESSION_003 enriched: 1 risk indicators found
+INFO:src.models.observability:Enrichment for TXN_SESSION_003: 4 sources queried in 0.00ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN_SESSION_003 in 0.00ms
+INFO:src.fraud_detection_system:Transaction TXN_SESSION_003 processed in 23.07ms: fraud_score=0.579, stages=['detection', 'enrichment']
+Processing transaction 5/6...
+INFO:src.fraud_detection_system:Processing transaction TXN_SESSION_004 for customer 5555
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN_SESSION_004
+INFO:src.agents.detector_agent:Transaction TXN_SESSION_004: Score=0.578, Priority=medium
+INFO:src.models.observability:FraudDetectorAgent completed for TXN_SESSION_004 in 8.62ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN_SESSION_004 (Customer: 5555, Score: 0.578)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN_SESSION_004
+INFO:src.agents.enrichment_agent:Transaction TXN_SESSION_004 enriched: 1 risk indicators found
+INFO:src.models.observability:Enrichment for TXN_SESSION_004: 4 sources queried in 0.00ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN_SESSION_004 in 0.00ms
+INFO:src.fraud_detection_system:Transaction TXN_SESSION_004 processed in 22.61ms: fraud_score=0.578, stages=['detection', 'enrichment']
+Processing transaction 6/6...
+INFO:src.fraud_detection_system:Processing transaction TXN_SESSION_005 for customer 5555
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN_SESSION_005
+INFO:src.agents.detector_agent:Transaction TXN_SESSION_005: Score=0.695, Priority=medium
+INFO:src.models.observability:Rule 'high_velocity' triggered for transaction TXN_SESSION_005
+INFO:src.models.observability:FraudDetectorAgent completed for TXN_SESSION_005 in 24.89ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN_SESSION_005 (Customer: 5555, Score: 0.695)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN_SESSION_005
+INFO:src.agents.enrichment_agent:Transaction TXN_SESSION_005 enriched: 1 risk indicators found
+INFO:src.models.observability:Enrichment for TXN_SESSION_005: 4 sources queried in 0.99ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN_SESSION_005 in 0.99ms
+INFO:src.fraud_detection_system:Transaction TXN_SESSION_005 processed in 34.28ms: fraud_score=0.695, stages=['detection', 'enrichment']
+  ⚠️  HIGH VELOCITY DETECTED on transaction 6!
+
+Customer Session State:
+{
+  "customer_id": 5555,
+  "session_id": "customer_5555",
+  "metadata": {
+    "customer_id": 5555,
+    "created_at": "2025-12-01 12:11:03.426671",
+    "last_activity": "2025-12-01 12:11:03.565857",
+    "transaction_count": 6,
+    "alert_count": 0
+  },
+  "recent_transaction_count": 6,
+  "recent_alert_count": 0,
+  "has_recent_alerts": false,
+  "velocity_1h": 6
+}
+
+================================================================================
+
+Press Enter to continue to next demo...
+
+================================================================================
+DEMO 3: Metrics and Observability
+================================================================================
+
+INFO:src.models.session_manager:Using ADK InMemorySessionService
+INFO:src.fraud_detection_system:Initializing fraud detection agents...
+INFO:src.agents.detector_agent:Fraud Detector Agent initialized with model: gemini-2.0-flash-exp
+INFO:src.agents.enrichment_agent:Enrichment Agent initialized with model: gemini-2.0-flash-exp
+INFO:src.agents.analyst_agent:Analyst Agent initialized with model: gemini-2.0-flash-exp
+INFO:src.fraud_detection_system:Fraud Detection System initialized successfully
+INFO:src.fraud_detection_system:Processing batch of 5 transactions
+INFO:src.fraud_detection_system:Processing transaction TXN00004137 for customer 1062
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN00004137
+INFO:src.agents.detector_agent:Transaction TXN00004137: Score=0.532, Priority=medium
+INFO:src.models.observability:FraudDetectorAgent completed for TXN00004137 in 10.78ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN00004137 (Customer: 1062, Score: 0.532)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN00004137
+INFO:src.agents.enrichment_agent:Transaction TXN00004137 enriched: 0 risk indicators found
+INFO:src.models.observability:Enrichment for TXN00004137: 4 sources queried in 0.99ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN00004137 in 0.99ms
+INFO:src.fraud_detection_system:Transaction TXN00004137 processed in 14.20ms: fraud_score=0.532, stages=['detection', 'enrichment'] 
+INFO:src.fraud_detection_system:Processing transaction TXN00005399 for customer 1293
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN00005399
+INFO:src.agents.detector_agent:Transaction TXN00005399: Score=0.525, Priority=medium
+INFO:src.models.observability:FraudDetectorAgent completed for TXN00005399 in 3.02ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN00005399 (Customer: 1293, Score: 0.525)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN00005399
+INFO:src.agents.enrichment_agent:Transaction TXN00005399 enriched: 2 risk indicators found
+INFO:src.models.observability:Enrichment for TXN00005399: 4 sources queried in 1.06ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN00005399 in 1.06ms
+INFO:src.fraud_detection_system:Transaction TXN00005399 processed in 12.00ms: fraud_score=0.525, stages=['detection', 'enrichment'] 
+INFO:src.fraud_detection_system:Processing transaction TXN00008447 for customer 1486
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN00008447
+INFO:src.agents.detector_agent:Transaction TXN00008447: Score=0.553, Priority=medium
+INFO:src.models.observability:FraudDetectorAgent completed for TXN00008447 in 7.62ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN00008447 (Customer: 1486, Score: 0.553)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN00008447
+INFO:src.agents.enrichment_agent:Transaction TXN00008447 enriched: 1 risk indicators found
+INFO:src.models.observability:Enrichment for TXN00008447: 4 sources queried in 0.00ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN00008447 in 0.00ms
+INFO:src.fraud_detection_system:Transaction TXN00008447 processed in 10.16ms: fraud_score=0.553, stages=['detection', 'enrichment'] 
+INFO:src.fraud_detection_system:Processing transaction TXN00001336 for customer 1323
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN00001336
+INFO:src.agents.detector_agent:Transaction TXN00001336: Score=0.562, Priority=medium
+INFO:src.models.observability:FraudDetectorAgent completed for TXN00001336 in 10.45ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN00001336 (Customer: 1323, Score: 0.562)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN00001336
+INFO:src.agents.enrichment_agent:Transaction TXN00001336 enriched: 2 risk indicators found
+INFO:src.models.observability:Enrichment for TXN00001336: 4 sources queried in 0.90ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN00001336 in 0.90ms
+INFO:src.fraud_detection_system:Transaction TXN00001336 processed in 13.52ms: fraud_score=0.562, stages=['detection', 'enrichment'] 
+INFO:src.fraud_detection_system:Processing transaction TXN00002856 for customer 1175
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+WARNING:google_adk.google.adk.sessions.in_memory_session_service:Deprecated. Please migrate to the async method.
+INFO:src.agents.detector_agent:Analyzing transaction TXN00002856
+INFO:src.agents.detector_agent:Transaction TXN00002856: Score=0.542, Priority=medium
+INFO:src.models.observability:FraudDetectorAgent completed for TXN00002856 in 4.48ms
+WARNING:src.models.observability:FRAUD DETECTED: Transaction TXN00002856 (Customer: 1175, Score: 0.542)
+INFO:src.agents.enrichment_agent:Enriching transaction TXN00002856
+INFO:src.agents.enrichment_agent:Transaction TXN00002856 enriched: 2 risk indicators found
+INFO:src.models.observability:Enrichment for TXN00002856: 4 sources queried in 1.08ms
+INFO:src.models.observability:EnrichmentAgent completed for TXN00002856 in 1.08ms
+INFO:src.fraud_detection_system:Transaction TXN00002856 processed in 11.09ms: fraud_score=0.542, stages=['detection', 'enrichment'] 
+INFO:src.fraud_detection_system:Batch processing complete: 5 transactions processed
+
+============================================================
+FRAUD DETECTION SYSTEM METRICS REPORT
+============================================================
+
+Uptime: 6.01 seconds
+
+--- Counters ---
+  agent_executions[agent=AnalystAgent,status=success]: 1
+  agent_executions[agent=EnrichmentAgent,status=success]: 22
+  agent_executions[agent=FraudDetectorAgent,status=success]: 22
+  enrichments_performed: 22
+  fraud_detected: 22
+  investigation_briefs_generated[priority=high]: 1
+  ml_predictions: 22
+  rules_triggered[rule=high_amount]: 1
+  rules_triggered[rule=high_velocity]: 1
+  rules_triggered[rule=risky_merchant]: 1
+  rules_triggered[rule=unusual_distance]: 1
+  rules_triggered[rule=unusual_time]: 1
+  transactions_processed: 22
+
+--- Gauges ---
+
+--- Histograms ---
+  enrichment_sources:
+    count: 22
+    min: 4.000
+    max: 4.000
+    mean: 4.000
+  fraud_scores:
+    count: 22
+    min: 0.522
+    max: 0.821
+    mean: 0.568
+  ml_scores:
+    count: 22
+    min: 0.870
+    max: 0.976
+    mean: 0.917
+
+--- Timers ---
+  agent_execution_time[agent=AnalystAgent]:
+    count: 1
+    min: 1.12ms
+    max: 1.12ms
+    mean: 1.12ms
+  agent_execution_time[agent=EnrichmentAgent]:
+    count: 22
+    min: 0.00ms
+    max: 3.93ms
+    mean: 1.23ms
+  agent_execution_time[agent=FraudDetectorAgent]:
+    count: 22
+    min: 0.00ms
+    max: 1855.91ms
+    mean: 93.19ms
+  brief_generation_time:
+    count: 1
+    min: 1.12ms
+    max: 1.12ms
+    mean: 1.12ms
+  enrichment_time:
+    count: 22
+    min: 0.00ms
+    max: 3.93ms
+    mean: 1.23ms
+  model_inference_time:
+    count: 22
+    min: 10.00ms
+    max: 10.00ms
+    mean: 10.00ms
+============================================================
+
+
+============================================================
+SESSION STATISTICS
+============================================================
+  active_sessions: 5
+  total_customers: 5
+  total_transactions: 0
+  total_alerts: 0
+  average_transactions_per_customer: 0.00
+============================================================
+
+
+✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅
+DEMO COMPLETE!
+✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅ ✅
